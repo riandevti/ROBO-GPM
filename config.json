@@ -1,0 +1,16 @@
+{
+
+    "login_url": "https://energy.gpm.srv.br/ci/Geral/Login",
+    "report_url": "https://energy.gpm.srv.br/#CA223",
+
+    "wait_time": 2,
+
+    "submitXPATH": "/html/body/form/div/div/div/div/div/div/div[4]/div[2]/div[2]/div[1]/button",
+
+    "search_url": "https://energy.gpm.srv.br/cadastro/geral/exporta_obras_escala.php?tir=&equipe=&situ=&contrato=17&centro_s=&regional=&resp=&data_ini=&data_fim=&data_pre_ini=&data_pre_fim=&data_atu_ini=&data_atu_fim=&coord=&lider=&ref_prog_ini=&ref_prog_fim=&tip_obr=&tip_servico="
+
+    
+    
+
+    
+}
