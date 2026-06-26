@@ -1,0 +1,13 @@
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+
+# Arquivos do sistema
+Thumbs.db
+desktop.ini
+.DS_Store

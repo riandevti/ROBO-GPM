@@ -22,7 +22,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager # type: ignore
 
 from logger import logger, setup_logger
-from apscheduler.schedulers.blocking import BlockingScheduler
+
 
 # ================= BASE DIR =================
 
@@ -35,8 +35,9 @@ else:
 load_dotenv(BASE_DIR / ".env")
 
 
-with open(BASE_DIR / "config.json", "r", encoding="utf-8") as f:
-    config = json.load(f)
+from config import load_config
+
+config = load_config()
 
 
 setup_logger(BASE_DIR / config["general"]["log_folder"])
@@ -134,8 +135,8 @@ def run_gpm():
 
         driver.get(cfg["login_url"])
 
-        driver.find_element(By.ID, "idLogin").send_keys(os.getenv("ADMIN_USERNAME"))
-        driver.find_element(By.ID, "idSenha").send_keys(os.getenv("ADMIN_PASSWORD"))
+        driver.find_element(By.ID, "idLogin").send_keys(os.getenv("ADMINGPM_USERNAME"))
+        driver.find_element(By.ID, "idSenha").send_keys(os.getenv("ADMINGPM_PASSWORD"))
 
         driver.find_element(By.XPATH, cfg["submit_xpath"]).click()
 
@@ -211,37 +212,24 @@ def run_all():
 
     logger.info("START PARALLEL RUN")
 
-    t1 = Thread(target=run_gpm)
-    t2 = Thread(target=run_ticketlog)
+    threads = []
 
-    t1.start()
-    t2.start()
+    if config["general"].get("gpm_enabled", False):
+        t1 = Thread(target=run_gpm)
+        threads.append(t1)
 
-    t1.join()
-    t2.join()
+    if config["general"].get("ticketlog_enabled", False):
+        t2 = Thread(target=run_ticketlog)
+        threads.append(t2)
+
+    if not threads:
+        logger.warning("No scripts enabled")
+        return
+
+    for t in threads:
+        t.start()
+
+    for t in threads:
+        t.join()
 
     logger.info("ALL FINISHED")
-
-
-# ================= SCHEDULER =================
-
-if __name__ == "__main__":
-
-
-    from apscheduler.schedulers.blocking import BlockingScheduler
-
-    scheduler = BlockingScheduler()
-
-    for t in config["general"]["run_times"]:
-        scheduler.add_job(run_all, "cron", hour=int(t.split(":")[0]), minute=int(t.split(":")[1]))
-
-    if config["general"]["run_on_startup"]:
-        run_all()
-
-    logger.info("Scheduler running")
-
-    if config["general"].get("enable_scheduler", False):
-        scheduler.start()
-else:
-    logger.info("Scheduler disabled (test mode)")
-    run_all()

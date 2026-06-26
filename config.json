@@ -1,16 +1,31 @@
 {
+  "general": {
+  "run_times": ["08:00", "11:00"],
+  "run_on_startup": true,
+  "enable_scheduler": false,
+  "gpm_enabled": true,
+  "ticketlog_enabled": false
+},
 
+  "gpm": {
     "login_url": "https://energy.gpm.srv.br/ci/Geral/Login",
-    "report_url": "https://energy.gpm.srv.br/#CA223",
+    "export_url": "https://energy.gpm.srv.br/gpm/geral/exporta_obras_detalhado.php",
+    "submit_xpath": "//button[@onclick='validaForm()']",
+    "contract_id": "17",
+    "initial_date": "07/05/2023",
+    "download_folder": "C:\\Automations\\ROBO-GPM\\downloads",
+    "destination_folder": "C:\\Automations\\ROBO-GPM\\output"
+  },
 
-    "wait_time": 2,
+  "ticketlog": {
+    "login_url": "https://SEU_SITE_AQUI",
+    "download_folder": "C:\\Automations\\ROBO-GPM\\downloads",
+    "destination_folder": "C:\\Automations\\ROBO-GPM\\output",
 
-    "submitXPATH": "/html/body/form/div/div/div/div/div/div/div[4]/div[2]/div[2]/div[1]/button",
-
-    "search_url": "https://energy.gpm.srv.br/cadastro/geral/exporta_obras_escala.php?tir=&equipe=&situ=&contrato=17&centro_s=&regional=&resp=&data_ini=&data_fim=&data_pre_ini=&data_pre_fim=&data_atu_ini=&data_atu_fim=&coord=&lider=&ref_prog_ini=&ref_prog_fim=&tip_obr=&tip_servico="
-
-    
-    
-
-    
+    "login_id": "idLogin",
+    "password_id": "idSenha",
+    "submit_xpath": "COLOCA_AQUI",
+    "filter_xpath": "COLOCA_AQUI",
+    "download_button_xpath": "COLOCA_AQUI"
+  }
 }
